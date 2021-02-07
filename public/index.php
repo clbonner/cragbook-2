@@ -1,14 +1,15 @@
 <!DOCTYPE html>
+<?php require(__DIR__ ."/../config.php") ?>
 <html lang="en" dir="ltr">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="css/bootstrap.css">
-  <script src="https://maps.googleapis.com/maps/api/js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=<?= $googlemaps_apikey ?>"></script>
   <script type="text/javascript" src="js/jquery/jquery-3.5.1.min.js"></script>
   <script type="text/javascript" src="js/bootstrap/bootstrap.bundle.min.js"></script>
   <script type="module" src="js/cragbook/cragbook.js"></script>
-  <title>Cragbook</title>
+  <title><?= $sitetitle ?></title>
 </head>
 <body>
   <nav class="navbar navbar-expand-sm navbar-dark bg-primary">

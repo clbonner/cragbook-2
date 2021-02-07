@@ -8,7 +8,7 @@
  * Return JSON data for the search function.
  */
  
-require_once(__DIR__ ."/config.php");
+require_once(__DIR__ ."/../../config.php");
 $db = db_connect();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {

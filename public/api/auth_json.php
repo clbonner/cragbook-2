@@ -1,6 +1,6 @@
 <?php
 
-include_once(__DIR__ ."/config.php");
+require_once(__DIR__ ."/../../config.php");
 
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
     if (isset($_SESSION["userid"]))
