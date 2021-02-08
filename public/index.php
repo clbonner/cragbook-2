@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<?php require(__DIR__ ."/../config.php") ?>
+<?php include(__DIR__ ."/../config.php") ?>
 <html lang="en" dir="ltr">
 <head>
   <meta charset="utf-8">
