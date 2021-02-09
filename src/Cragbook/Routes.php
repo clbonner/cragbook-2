@@ -2,6 +2,7 @@
 
 namespace Cragbook;
 use Cragbook\Request\RequestInterface;
+use \mysqli;
 
 include(__DIR__ ."/Request/RequestInterface.php");
 
@@ -13,7 +14,7 @@ class RoutesInterface implements RequestInterface
     function __construct()
     {
         //open database
-        $this->connection = new \mysqli(DATABASE["hostname"], DATABASE["user"], DATABASE["password"], DATABASE["name"], DATABASE["port"]);
+        $this->connection = new mysqli(DATABASE["hostname"], DATABASE["user"], DATABASE["password"], DATABASE["name"], DATABASE["port"]);
     
         if ($this->connection->connect_error) {
             exit("Connection failed: " . $this->connection->connect_error);
@@ -26,17 +27,17 @@ class RoutesInterface implements RequestInterface
         $this->connection->close();
     }
 
-    public function getData($method, $query) 
+    public function getData($method, $url) 
     {
         if ($method == "GET") {
             // send JSON data for routes at crag
-            if (isset($query["areaid"])) {
+            if (isset($url["areaid"])) {
                 
                 if (isset($_SESSION["userid"])) {
-                    $sql = "SELECT cragid,name FROM crags WHERE areaid = ". $query["areaid"] ." ORDER BY name ASC;";
+                    $sql = "SELECT cragid,name FROM crags WHERE areaid = ". $url["areaid"] ." ORDER BY name ASC;";
                 }
                 else {
-                    $sql = "SELECT cragid,name FROM crags WHERE areaid = ". $query["areaid"] ." AND public=1 ORDER BY name ASC;";
+                    $sql = "SELECT cragid,name FROM crags WHERE areaid = ". $url["areaid"] ." AND public=1 ORDER BY name ASC;";
                 }
 
                 if (!$result = $connection->query($sql)) {
@@ -79,9 +80,9 @@ class RoutesInterface implements RequestInterface
             }
             
             // send JSON data for routes at crag
-            if (isset($query["cragid"])) {
+            if (isset($url["cragid"])) {
                 
-                $sql = "SELECT * FROM routes WHERE cragid = ". $query["cragid"] ." ORDER BY orderid ASC;";
+                $sql = "SELECT * FROM routes WHERE cragid = ". $url["cragid"] ." ORDER BY orderid ASC;";
                 
                 if (!$result = $connection->query($sql)) {
                     exit("Error in route_json.php: " .$connection->error);

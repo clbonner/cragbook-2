@@ -2,6 +2,7 @@
 
 namespace Cragbook;
 use Cragbook\Request\RequestInterface;
+use \mysqli;
 
 include(__DIR__ ."/Request/RequestInterface.php");
 
@@ -12,7 +13,7 @@ class CragRequest implements RequestInterface {
     function __construct()
     {
         //open database
-        $this->connection = new \mysqli(DATABASE["hostname"], DATABASE["user"], DATABASE["password"], DATABASE["name"], DATABASE["port"]);
+        $this->connection = new mysqli(DATABASE["hostname"], DATABASE["user"], DATABASE["password"], DATABASE["name"], DATABASE["port"]);
     
         if ($this->connection->connect_error) {
             exit("Connection failed: " . $this->connection->connect_error);
@@ -25,22 +26,22 @@ class CragRequest implements RequestInterface {
         $this->connection->close();
     }
 
-    public function getData($method, $query)
+    public function getData($method, $url)
     {
         if ($method == "GET") {
-            if (isset($query["areaid"])) {
+            if (isset($url["areaid"])) {
                 // get crags for area
                 if (isset($_SESSION["userid"]))
-                    $sql = "SELECT * FROM crags WHERE areaid=" .$query["areaid"] ." ORDER BY name ASC;";
+                    $sql = "SELECT * FROM crags WHERE areaid=" .$url["areaid"] ." ORDER BY name ASC;";
                 else
-                    $sql = "SELECT * FROM crags WHERE areaid=" .$query["areaid"] ." AND public=1 ORDER BY name ASC;";
+                    $sql = "SELECT * FROM crags WHERE areaid=" .$url["areaid"] ." AND public=1 ORDER BY name ASC;";
             }
-            elseif (isset($query["cragid"])) {
+            elseif (isset($url["cragid"])) {
                 // get a single crag
                 if (isset($_SESSION["userid"]))
-                    $sql = "SELECT * FROM crags WHERE cragid=" .$query["cragid"] .";";
+                    $sql = "SELECT * FROM crags WHERE cragid=" .$url["cragid"] .";";
                 else 
-                    $sql = "SELECT * FROM crags WHERE cragid=" .$query["cragid"] ." AND public=1;";
+                    $sql = "SELECT * FROM crags WHERE cragid=" .$url["cragid"] ." AND public=1;";
             }
             else {
                 // return all crags

@@ -2,6 +2,7 @@
 
 namespace Cragbook;
 use Cragbook\Request\RequestInterface;
+use \mysqli;
 
 include(__DIR__ ."/Request/RequestInterface.php");
 
@@ -13,7 +14,7 @@ class AreaRequest implements RequestInterface {
     function __construct()
     {
         //open database
-        $this->connection = new \mysqli(DATABASE["hostname"], DATABASE["user"], DATABASE["password"], DATABASE["name"], DATABASE["port"]);
+        $this->connection = new mysqli(DATABASE["hostname"], DATABASE["user"], DATABASE["password"], DATABASE["name"], DATABASE["port"]);
     
         if ($this->connection->connect_error) {
             exit("Connection failed: " . $this->connection->connect_error);
@@ -25,18 +26,18 @@ class AreaRequest implements RequestInterface {
         $this->connection->close();
     }
 
-    public function getData($method, $query)
+    public function getData($method, $url)
     {
         // get area
         if ($method == "GET") {
-            if (isset($query["areaid"])) {
-                if (!is_numeric($query["areaid"])) exit;
+            if (isset($url["areaid"])) {
+                if (!is_numeric($url["areaid"])) exit;
             
                 if (isset($_SESSION["userid"])) {
-                    $sql = "SELECT * FROM areas WHERE areaid=" .$query["areaid"] .";";
+                    $sql = "SELECT * FROM areas WHERE areaid=" .$url["areaid"] .";";
                 } 
                 else {
-                    $sql = "SELECT * FROM areas WHERE areaid=" .$query["areaid"] ." AND public=1;";
+                    $sql = "SELECT * FROM areas WHERE areaid=" .$url["areaid"] ." AND public=1;";
                 }
 
                 if (!$result = $connection->query($sql)) {
