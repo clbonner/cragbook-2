@@ -1,10 +1,11 @@
 <?php
 
 namespace Cragbook;
+use Cragbook\Request\RequestInterface;
 
 include(__DIR__ ."/Request/RequestInterface.php");
 
-class CragRequest implements Request\RequestInterface {
+class CragRequest implements RequestInterface {
     private $data;
     private $connection;
 
@@ -17,6 +18,11 @@ class CragRequest implements Request\RequestInterface {
             exit("Connection failed: " . $this->connection->connect_error);
         }
 
+    }
+
+    function __destruct()
+    {
+        $this->connection->close();
     }
 
     public function getData($method, $query)

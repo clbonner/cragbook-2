@@ -1,11 +1,12 @@
 <?php
 
 namespace Cragbook;
+use Cragbook\Request\RequestInterface;
 
 include(__DIR__ ."/Request/RequestInterface.php");
 
 
-class AreaRequest implements Request\RequestInterface {
+class AreaRequest implements RequestInterface {
     private $data;
     private $connection;
 
@@ -17,7 +18,6 @@ class AreaRequest implements Request\RequestInterface {
         if ($this->connection->connect_error) {
             exit("Connection failed: " . $this->connection->connect_error);
         }
-
     }
 
     function __destruct()
