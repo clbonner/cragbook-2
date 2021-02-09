@@ -1,6 +1,8 @@
+<?php
+
 namespace Cragbook;
 
-use Cragbook\Json;
+include(__DIR__ ."/../../config.php");
+include(__DIR__ ."/Area.php");
 
-include(__DIR__ ."../../config.php");
-
+?>

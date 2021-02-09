@@ -1,6 +1,15 @@
 <?php
 
-// Return json data from csv flat file (for development purposes only)
+namespace Cragbook;
+
+include(__DIR__ ."/../../src/Cragbook/Cragbook.php");
+
+$area = new AreaRequest();
+$area->getData($_SERVER["REQUEST_METHOD"], $_GET["areaid"]);
+echo $area->getJSON();
+
+
+/* Return json data from csv flat file (for development purposes only)
 if($_SERVER["REQUEST_METHOD"] == "GET")
 {
     $data = [];
@@ -22,6 +31,6 @@ if($_SERVER["REQUEST_METHOD"] == "GET")
     }
 
     echo json_encode($data);
-}
+}*/
 
 ?>

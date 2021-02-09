@@ -2,40 +2,45 @@
 
 namespace Cragbook;
 
-use Cragbook\Request;
-
 include(__DIR__ ."/Request/RequestInterface.php");
 
-class AreaRequest implements RequestInterface {
-    private $data;
-    private $db;
 
-    function __construct($database) {
+class AreaRequest implements Request\RequestInterface {
+    private $data;
+    private $connection;
+
+    function __construct()
+    {
         //open database
-        $this->db = new mysqli($host, $dbuser, $dbpass, $dbname, $dbport);
+        $this->connection = new \mysqli(DATABASE["hostname"], DATABASE["user"], DATABASE["password"], DATABASE["name"], DATABASE["port"]);
     
-        if ($db->connect_error) {
-            exit("Connection failed: " . $db->connect_error);
+        if ($this->connection->connect_error) {
+            exit("Connection failed: " . $this->connection->connect_error);
         }
 
     }
 
-    public function getData($method, $id) {
+    function __destruct()
+    {
+        $this->connection->close();
+    }
+
+    public function getData($method, $query)
+    {
+        // get area
         if ($method == "GET") {
-        
-            // get area
-            if (isset($id["areaid"])) {
-                if (!is_numeric($id["areaid"])) exit;
+            if (isset($query["areaid"])) {
+                if (!is_numeric($query["areaid"])) exit;
             
                 if (isset($_SESSION["userid"])) {
-                    $sql = "SELECT * FROM areas WHERE areaid=" .$id["areaid"] .";";
+                    $sql = "SELECT * FROM areas WHERE areaid=" .$query["areaid"] .";";
                 } 
                 else {
-                    $sql = "SELECT * FROM areas WHERE areaid=" .$id["areaid"] ." AND public=1;";
+                    $sql = "SELECT * FROM areas WHERE areaid=" .$query["areaid"] ." AND public=1;";
                 }
 
-                if (!$result = $db->query($sql)) {
-                    exit("Error in area_json.php: " .$db->error);
+                if (!$result = $connection->query($sql)) {
+                    exit("Error in area_json.php: " .$connection->error);
                 }
                 
                 $this->data = $result->fetch_assoc();
@@ -51,8 +56,8 @@ class AreaRequest implements RequestInterface {
                 $sql = "SELECT * FROM areas WHERE public=1 ORDER BY name ASC;";
             }
 
-            if (!$result = $db->query($sql)) {
-                exit("Error in area_json.php: " .$db->error);
+            if (!$result = $connection->query($sql)) {
+                exit("Error in area_json.php: " .$connection->error);
             }
             
             $this->data = [];
@@ -63,7 +68,8 @@ class AreaRequest implements RequestInterface {
         }
     }
 
-    public function getJSON() {
+    public function getJSON()
+    {
         return json_encode($this->data);
     }
 }
