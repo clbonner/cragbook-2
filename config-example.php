@@ -1,39 +1,32 @@
 <?php
 
-/* This file is part of Cragbook https://github.com/clbonner/cragbook
- * and is licensesed under the GNU General Public License version 3.
- * Copyright 2017 Christopher L Bonner
- *
- * include/config.php 
- * Configuration file for CragBook including site and database info.
- */
+namespace Cragbook;
 
 //================= Start of configuration section ===================//
 
 // site title
-$sitetitle = "Cragbook";
+const SITE_TITLE = "Cragbook";
 
-// database hostname
-$host = "";
+const DATABASE = [
+    // database hostname
+    "hostname" => "",
 
-// datbase port number (default 3306)
-$dbport = 3306;
+    // datbase port number (default 3306)
+    "port" => 3306,
 
-// database name
-$dbname = "";
+    // database name
+    "name" => "",
 
-// database user name
-$dbuser = "";
+    // database user name
+    "user" => "",
 
-// database user password
-$dbpass = "";
+    // database user password
+    "password" => ""
+];
 
 // key for google maps api
-$googlemaps_apikey = "";
+const GOOGLE_MAPS_API_KEY = "";
 
-//================= End of configuration section ===================//
-
-session_start();
-require_once(__DIR__ ."/lib/functions.php");
+//=================== End of configuration section ===================//
 
 ?>

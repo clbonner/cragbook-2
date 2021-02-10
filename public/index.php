@@ -9,7 +9,7 @@
   <script type="text/javascript" src="js/jquery/jquery-3.5.1.min.js"></script>
   <script type="text/javascript" src="js/bootstrap/bootstrap.bundle.min.js"></script>
   <script type="module" src="js/cragbook/cragbook.js"></script>
-  <title><?= $sitetitle ?></title>
+  <title><?= SITE_TITLE ?></title>
 </head>
 <body>
   <nav class="navbar navbar-expand-sm navbar-dark bg-primary">
