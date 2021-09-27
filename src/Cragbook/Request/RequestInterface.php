@@ -4,8 +4,11 @@ namespace Cragbook\Request;
 
 interface RequestInterface 
 {
-    // Gets data from the database
-    public function getData();
+    // receives a GET request
+    public function getRequest($url);
+
+    // receives a POST request
+    public function postRequest();
 }
 
 ?>

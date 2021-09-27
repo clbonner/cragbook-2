@@ -1,17 +1,23 @@
 <?php 
 
 namespace Cragbook\Request;
-
-use \mysqli;
+use mysqli;
 
 class Request {
-    private $connection;
-    private $data;
+    public $connection;
+    public $data;
 
     function __construct()
     {
+        require __DIR__ ."/../../../config.php";
         // open database
-        $this->connection = new mysqli(DATABASE["hostname"], DATABASE["user"], DATABASE["password"], DATABASE["name"], DATABASE["port"]);
+        $this->connection = new mysqli(
+            $DATABASE["hostname"], 
+            $DATABASE["user"], 
+            $DATABASE["password"], 
+            $DATABASE["name"], 
+            $DATABASE["port"]
+        );
     
         if ($this->connection->connect_error) {
             exit("Connection failed: " . $this->connection->connect_error);

@@ -12,7 +12,7 @@ function viewAreas() {
     let element = "list";
 
     // get areas json data
-    fetch("/api/json.php?file=areas").then( (response) => {
+    fetch("/api/request.php?id=areas").then( (response) => {
         return getResponseText(response).then(( json ) => {
             areas = JSON.parse(json);
             
@@ -40,12 +40,12 @@ function viewArea(id) {
     let crags, area, latlng, center, template;
 
     // get crags json data from database
-    fetch("/api/json.php?file=crags").then(( response ) => {
+    fetch("/api/request.php?id=crags").then(( response ) => {
         return getResponseText(response).then( (json) => {
             crags = JSON.parse(json);
 
             // get area json data from databasee
-            fetch("/api/json.php?file=area").then(( response ) => {
+            fetch("/api/request.php?id=area").then(( response ) => {
                 return getResponseText(response).then( (json) => {
                     area = JSON.parse(json);
 

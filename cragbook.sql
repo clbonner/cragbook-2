@@ -13,6 +13,21 @@ SET time_zone = "+00:00";
 
 -- --------------------------------------------------------
 
+CREATE TABLE `guides` (
+  `guideid` int(11) NOT NULL,
+  `name` varchar(255) COLLATE utf8_bin NOT NULL,
+  `subtitle` varchar(255) COLLATE utf8_bin NOT NULL,
+  `cover` varchar(255) COLLATE utf8_bin NOT NULL,
+  `author` varchar(255) COLLATE utf8_bin NOT NULL,
+  `publishdate` varchar(100) COLLATE utf8_bin NOT NULL,
+  `introduction` text COLLATE utf8_bin NOT NULL,
+  `historical` text COLLATE utf8_bin NOT NULL,
+  `grades` text COLLATE utf8_bin NOT NULL,
+  `access` text COLLATE utf8_bin NOT NULL,
+  `ethics` text COLLATE utf8_bin NOT NULL,
+  `draft` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
 --
 -- Table structure for table `areas`
 --
@@ -22,7 +37,7 @@ CREATE TABLE `areas` (
   `name` varchar(255) COLLATE utf8_bin NOT NULL,
   `description` text COLLATE utf8_bin NOT NULL,
   `location` varchar(50) COLLATE utf8_bin NOT NULL,
-  `public` tinyint(1) NOT NULL
+  `draft` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -34,13 +49,14 @@ CREATE TABLE `areas` (
 CREATE TABLE `crags` (
   `cragid` int(11) NOT NULL,
   `areaid` int(11) NOT NULL,
+  `guideid` int(11) NOT NULL,
   `name` varchar(255) COLLATE utf8_bin NOT NULL,
   `description` text COLLATE utf8_bin NOT NULL,
   `approach` text COLLATE utf8_bin NOT NULL,
   `access` text COLLATE utf8_bin NOT NULL,
   `policy` text COLLATE utf8_bin NOT NULL,
   `location` varchar(50) COLLATE utf8_bin NOT NULL,
-  `public` tinyint(1) NOT NULL
+  `draft` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -54,7 +70,7 @@ CREATE TABLE `routes` (
   `cragid` int(11) NOT NULL,
   `name` varchar(255) COLLATE utf8_bin NOT NULL,
   `grade` varchar(50) COLLATE utf8_bin NOT NULL,
-  `stars` varchar(5) COLLATE utf8_bin NOT NULL,
+  `stars` int(11) NOT NULL,
   `length` int(11) NOT NULL,
   `description` text COLLATE utf8_bin NOT NULL,
   `sector` varchar(255) COLLATE utf8_bin NOT NULL,
@@ -108,6 +124,12 @@ INSERT INTO `users` (`userid`, `username`, `password`, `displayname`, `groupid`)
 --
 
 --
+-- Indexes for table `guides`
+--
+ALTER TABLE `guides`
+  ADD PRIMARY KEY (`guideid`);
+
+--
 -- Indexes for table `areas`
 --
 ALTER TABLE `areas`
@@ -143,6 +165,11 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for dumped tables
 --
 
+--
+-- AUTO_INCREMENT for table `guides`
+--
+ALTER TABLE `guides`
+  MODIFY `guideid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `areas`
 --

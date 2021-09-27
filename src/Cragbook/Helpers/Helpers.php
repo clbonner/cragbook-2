@@ -2,24 +2,16 @@
 
 namespace Cragbook\Helpers;
 
-// Performs security checks on data that will be outputted as html
-function sanitiseInput($data) 
+// escape any data for input/output
+function sanitiseData($data) 
 {
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
+    return htmlentities($data, ENT_QUOTES, 'UTF-8');
 }
 
-// check user is logged in before performing any database updates
+// check user is logged in before performing any database inputs
 function isLoggedIn() 
 {
-    if (isset($_SESSION["userid"])) {
-        return true;
-    }
-    else {
-        return false;
-    }
+    return isset($_SESSION["userid"]) ? true : false;
 }
 
 ?>
