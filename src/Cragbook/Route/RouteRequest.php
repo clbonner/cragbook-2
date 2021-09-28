@@ -2,7 +2,7 @@
 
 namespace Cragbook;
 
-use Cragbook\RequestRequest;
+use Cragbook\Request\Request;
 use Cragbook\Request\RequestInterface;
 use Cragbook\Helpers\isLoggedIn;
 
@@ -13,7 +13,6 @@ class RouteRequest extends Request implements RequestInterface
         if (isset($url["cragid"])) {
             $this->getRoutes($url["cragid"]);
         }
-
     }
 
     public function postRequest()
@@ -25,8 +24,8 @@ class RouteRequest extends Request implements RequestInterface
     {
         $sql = "SELECT * FROM routes WHERE cragid = " .$id ." ORDER BY orderid ASC;";
                 
-        if (!$result = $connection->query($sql)) {
-            exit("Error in route_json.php: " .$connection->error);
+        if (!$result = $this->connection->query($sql)) {
+            exit("Error in route_json.php: " .$this->connection->error);
         }
         
         $this->data = [];
@@ -44,7 +43,7 @@ class RouteRequest extends Request implements RequestInterface
             foreach ($routes as $route) {
                 $sql = "UPDATE routes SET orderid=" .$route["orderid"] ." WHERE routeid=" .$route["routeid"] .";";
                 
-                if(!$connection->query($sql)){
+                if(!$this->connection->query($sql)){
                     exit("Error in route_json.php: " .$connection->error);
                 }
             }
