@@ -12,17 +12,17 @@ function viewCrags() {
     let element = "list";
 
     // get crags json data
-    fetch("/api/json.php?file=crags").then(( response ) => {
+    fetch("/api/request.php?id=crags").then((response) => {
         return getResponseText(response);
-    }).then(( json ) => {
+    }).then((json) => {
         crags = JSON.parse(json);
 
         // get page template
-        fetch("/api/template.php?id=crags").then(( response ) => {
+        fetch("/api/template.php?id=crags").then((response) => {
             return getResponseText(response);
-        }).then(( html ) => {
+        }).then((html) => {
             template = createTemplate(html);
-            pagination = new ListPagination(crags, 5);           
+            pagination = new ListPagination(crags, 5);
             createPaginationControl(pagination, id, destination, element, template);
             createList(pagination.getPage(0), id, destination, element, template);
             createMap(id, defaultCenter, crags, destination, template);
@@ -31,29 +31,29 @@ function viewCrags() {
             createBreadcrumb();
         });
     });
-    
+
 }
 
 // view a crag
 function viewCrag(id) {
     let crag, routes, latlng, center, template;
-    
+
     // get crag json data
-    fetch("/api/json.php?file=crag").then(( response ) => {
+    fetch("/api/request.php?id=crags&cragid=" + id).then((response) => {
         return getResponseText(response);
-    }).then(( json ) => {
+    }).then((json) => {
         crag = JSON.parse(json);
 
         // get routes json data
-        fetch("/api/json.php?file=routes").then(( response ) => {
+        fetch("/api/request.php?id=routes&cragid=" + id).then((response) => {
             return getResponseText(response);
-        }).then(( json ) => {
+        }).then((json) => {
             routes = new RouteList(JSON.parse(json));
 
             // get page template
-            fetch("/api/template.php?id=crag").then(( response ) => {
+            fetch("/api/template.php?id=crag").then((response) => {
                 return getResponseText(response);
-            }).then(( html ) => {
+            }).then((html) => {
                 latlng = crag[0].location.split(",");
                 center = new google.maps.LatLng(latlng[0], latlng[1]);
 
@@ -70,7 +70,7 @@ function viewCrag(id) {
             });
         });
     });
-    
+
 }
 
 // inserts data to the crag page template for the info section
