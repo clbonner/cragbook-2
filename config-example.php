@@ -5,9 +5,9 @@ namespace Cragbook;
 //================= Start of configuration section ===================//
 
 // site title
-const SITE_TITLE = "Cragbook";
+$SITE_TITLE = "Cragbook";
 
-const DATABASE = [
+$DATABASE = [
     // database hostname
     "hostname" => "",
 
@@ -25,7 +25,7 @@ const DATABASE = [
 ];
 
 // key for google maps api
-const GOOGLE_MAPS_API_KEY = "";
+$GOOGLE_MAPS_API_KEY = "";
 
 //=================== End of configuration section ===================//
 

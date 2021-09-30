@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="css/bootstrap.css">
-  <script src="https://maps.googleapis.com/maps/api/js?key=<?= $googlemaps_apikey ?>"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=<?= $GOOGLE_MAPS_API_KEY ?>"></script>
   <script type="text/javascript" src="js/jquery/jquery-3.5.1.min.js"></script>
   <script type="text/javascript" src="js/bootstrap/bootstrap.bundle.min.js"></script>
   <script type="module" src="js/cragbook/cragbook.js"></script>
