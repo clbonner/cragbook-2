@@ -8,57 +8,46 @@ use function Cragbook\Helpers\isLoggedIn;
 
 class GuideRequest extends Request implements RequestInterface 
 {
-    public function getRequest($url)
+    public function getAll()
     {
-        if (isset($url["areaid"])) {
-            $this->getArea($url["areaid"]);
+        if (isLoggedIn()) {
+            $sql = "SELECT * FROM guides ORDER BY name ASC;";
+        }
+        else {
+            $sql = "SELECT * FROM guides WHERE draft=0 ORDER BY name ASC;";
         }
 
-        else $this->getAllAreas();
-    }
-    
-    public function postRequest()
-    {
+        if (!$result = $this->connection->query($sql)) {
+            exit("Error retrieving guides data: " .$this->connection->error);
+        }
+        
+        $guides = [];
 
+        while ($guide = $result->fetch_assoc()) {
+            array_push($guides, $guide);
+        }
+
+        return $guides;
     }
 
-    private function getGuide($id) 
+    public function getID($id)
     {
         if (!is_numeric($id)) exit;
     
         if (isLoggedIn()) {
-            $sql = "SELECT * FROM areas WHERE areaid=" .$id .";";
+            $sql = "SELECT * FROM guides WHERE guideid=" .$id .";";
         } 
         else {
-            $sql = "SELECT * FROM areas WHERE areaid=" .$id ." AND draft=0;";
+            $sql = "SELECT * FROM guides WHERE guideid=" .$id ." AND draft=0;";
         }
 
         if (!$result = $this->connection->query($sql)) {
-            exit("Error retrieving area data: " .$this->connection->error);
+            exit("Error retrieving guide data: " .$this->connection->error);
         }
         
-        $this->data = $result->fetch_assoc();
+        return $guide = $result->fetch_assoc();
     }
 
-    private function getAllAreas()
-    {
-        if (isLoggedIn()) {
-            $sql = "SELECT * FROM areas ORDER BY name ASC;";
-        }
-        else {
-            $sql = "SELECT * FROM areas WHERE draft=0 ORDER BY name ASC;";
-        }
-
-        if (!$result = $this->connection->query($sql)) {
-            exit("Error retrieving all areas data: " .$this->connection->error);
-        }
-        
-        $this->data = [];
-        while ($area = $result->fetch_assoc()) {
-            $area["description"] = htmlspecialchars_decode($area["description"]);
-            array_push($this->data, $area);
-        }
-    }
 
     private function addArea()
     {

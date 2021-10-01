@@ -8,7 +8,7 @@ function viewGuides() {
     let guides, template;
     
     // get guides data
-    fetch("/api/json.php?file=guides").then(( response ) => {
+    fetch("/api/request.php?request=guides").then(( response ) => {
         return getResponseText(response);
     }).then(( json ) => {
         guides = JSON.parse(json);
@@ -32,30 +32,24 @@ function viewGuide(id) {
     let guide, crags, areas, template;
 
     // get guide data
-    fetch("/api/json.php?file=guide").then(( response ) => {
+    fetch("/api/request.php?request=guide&id=" + id).then(( response ) => {
         return getResponseText(response);
     }).then(( json ) => {
         guide = JSON.parse(json);
+        crags = guide.crags;
 
-        // get crags data
-        fetch("/api/json.php?file=crags").then(( response ) => {
-            return getResponseText(response);
-        }).then(( json ) => {
-            crags = JSON.parse(json);
+        // fetch guide template
+        fetch("/api/template.php?id=guide").then(( response ) => {
+                return getResponseText(response);
+        }).then(( html ) => {
+            template = createTemplate(html);
+            createGuide(guide, template);
 
-            // fetch guide template
-            fetch("/api/template.php?id=guide").then(( response ) => {
-                    return getResponseText(response);
-            }).then(( html ) => {
-                template = createTemplate(html);
-                createGuide(guide[0], template);
+            createList(crags, "cragid", viewCrag, "list", template);
+            loadTemplateView(template);
 
-                createList(crags, "cragid", viewCrag, "list", template);
-                loadTemplateView(template);
-
-                cragbook.trail.addCrumb(guide[0].name, () => (viewGuide(guide[0].guideid)));
-                createBreadcrumb();
-            });
+            cragbook.trail.addCrumb(guide.name, () => (viewGuide(guide.guideid)));
+            createBreadcrumb();
         });
     });
 }

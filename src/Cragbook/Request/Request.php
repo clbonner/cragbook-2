@@ -4,8 +4,8 @@ namespace Cragbook\Request;
 use mysqli;
 
 class Request {
-    public $connection;
-    public $data;
+    protected $connection;
+    protected $data;
 
     function __construct()
     {
@@ -28,11 +28,6 @@ class Request {
     {
         // close database
         $this->connection->close();
-    }
-
-    public function getJSON()
-    {
-        return json_encode($this->data);
     }
 }
 

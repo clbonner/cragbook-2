@@ -12,7 +12,7 @@ function viewAreas() {
     let element = "list";
 
     // get areas json data
-    fetch("/api/request.php?id=areas").then( (response) => {
+    fetch("/api/request.php?request=areas").then( (response) => {
         return getResponseText(response).then(( json ) => {
             areas = JSON.parse(json);
             
@@ -39,35 +39,29 @@ function viewAreas() {
 function viewArea(id) {
     let crags, area, latlng, center, template;
 
-    // get crags for this area
-    fetch("/api/request.php?id=crags&areaid=" + id).then(( response ) => {
+    // get area information
+    fetch("/api/request.php?request=area&id=" + id).then(( response ) => {
         return getResponseText(response).then( (json) => {
-            crags = JSON.parse(json);
+            area = JSON.parse(json);
+            crags = area.crags;
 
-            // get area information
-            fetch("/api/request.php?id=areas&areaid=" + id).then(( response ) => {
-                return getResponseText(response).then( (json) => {
-                    area = JSON.parse(json);
+            // get area template
+            fetch("/api/template.php?id=area").then( (response) => {
+                return getResponseText(response);
+            }).then( (html) => {
+                template = createTemplate(html);
 
-                    // get area template
-                    fetch("/api/template.php?id=area").then( (response) => {
-                        return getResponseText(response);
-                    }).then( (html) => {
-                        template = createTemplate(html);
+                template.getElementById("name").innerHTML = area.name;
+                template.getElementById("description").innerHTML = area.description;
 
-                        template.getElementById("name").innerHTML = area.name;
-                        template.getElementById("description").innerHTML = area.description;
-
-                        latlng = area.location.split(",");
-                        center = new google.maps.LatLng(latlng[0], latlng[1]);
-                        createMap("areaid", center, crags, viewArea, template);
-                        createList(crags, "cragid", viewCrag, "list", template);
-                        loadTemplateView(template);
-                        cragbook.trail.addCrumb(area.name, () => (viewArea(area.areaid)));
-                        createBreadcrumb();
-                    });
-                })
-            })
+                latlng = area.location.split(",");
+                center = new google.maps.LatLng(latlng[0], latlng[1]);
+                createMap("areaid", center, crags, viewArea, template);
+                createList(crags, "cragid", viewCrag, "list", template);
+                loadTemplateView(template);
+                cragbook.trail.addCrumb(area.name, () => (viewArea(area.areaid)));
+                createBreadcrumb();
+            });
         })
     })
 }

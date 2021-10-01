@@ -12,7 +12,7 @@ function viewCrags() {
     let element = "list";
 
     // get crags json data
-    fetch("/api/request.php?id=crags").then((response) => {
+    fetch("/api/request.php?request=crags").then((response) => {
         return getResponseText(response);
     }).then((json) => {
         crags = JSON.parse(json);
@@ -39,47 +39,40 @@ function viewCrag(id) {
     let crag, routes, latlng, center, template;
 
     // get crag json data
-    fetch("/api/request.php?id=crags&cragid=" + id).then((response) => {
+    fetch("/api/request.php?request=crag&id=" + id).then((response) => {
         return getResponseText(response);
     }).then((json) => {
         crag = JSON.parse(json);
+        routes = new RouteList(crag.routes);
 
-        // get routes json data
-        fetch("/api/request.php?id=routes&cragid=" + id).then((response) => {
+        // get page template
+        fetch("/api/template.php?id=crag").then((response) => {
             return getResponseText(response);
-        }).then((json) => {
-            routes = new RouteList(JSON.parse(json));
+        }).then((html) => {
+            latlng = crag.location.split(",");
+            center = new google.maps.LatLng(latlng[0], latlng[1]);
 
-            // get page template
-            fetch("/api/template.php?id=crag").then((response) => {
-                return getResponseText(response);
-            }).then((html) => {
-                latlng = crag[0].location.split(",");
-                center = new google.maps.LatLng(latlng[0], latlng[1]);
-
-                template = createTemplate(html);
-                createCragInfo(crag, template);
-                createGradeSummary(routes, template);
-                createMap("cragid", center, crag, viewCrag, template);
-                createRouteTable(routes.getAllRoutes(), template);
-                setRouteFilter(routes, template);
-                setRouteTableHeaderFilters(routes, template);
-                loadTemplateView(template);
-                cragbook.trail.addCrumb(crag[0].name, () => (viewCrag(crag[0].cragid)));
-                createBreadcrumb();
-            });
+            template = createTemplate(html);
+            createCragInfo(crag, template);
+            createGradeSummary(routes, template);
+            createMap("cragid", center, [crag], viewCrag, template);
+            createRouteTable(routes.getAllRoutes(), template);
+            setRouteFilter(routes, template);
+            setRouteTableHeaderFilters(routes, template);
+            loadTemplateView(template);
+            cragbook.trail.addCrumb(crag.name, () => (viewCrag(crag.cragid)));
+            createBreadcrumb();
         });
     });
-
 }
 
 // inserts data to the crag page template for the info section
 function createCragInfo(crag, template) {
-    template.getElementById("name").innerHTML = crag[0].name;
-    template.getElementById("description").innerHTML = crag[0].description;
-    template.getElementById("approach").innerText = crag[0].approach;
-    template.getElementById("access").innerText = crag[0].access;
-    template.getElementById("policy").innerText = crag[0].policy;
+    template.getElementById("name").innerHTML = crag.name;
+    template.getElementById("description").innerHTML = crag.description;
+    template.getElementById("approach").innerText = crag.approach;
+    template.getElementById("access").innerText = crag.access;
+    template.getElementById("policy").innerText = crag.policy;
 }
 
 export { viewCrags, viewCrag };
