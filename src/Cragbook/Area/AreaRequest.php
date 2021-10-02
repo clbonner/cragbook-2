@@ -8,30 +8,6 @@ use function Cragbook\Helpers\isLoggedIn;
 
 class AreaRequest extends Request implements RequestInterface 
 {
-    public function getRequest($url)
-    {
-        if (isset($url["areaid"])) {
-            $this->getID($url["areaid"]);
-        }
-
-        else $this->getAll();
-    }
-    
-    public function postRequest()
-    {
-
-    }
-
-    public function getID($id) 
-    {
-        if (!is_numeric($id)) exit;
-        
-        $area = $this->getArea($id);
-        $area["crags"] = $this->getCrags($id);
-
-        return $area;
-    }
-
     public function getAll()
     {
         if (isLoggedIn()) {
@@ -52,6 +28,16 @@ class AreaRequest extends Request implements RequestInterface
         }
 
         return $areas;
+    }
+
+    public function getID($id) 
+    {
+        if (!is_numeric($id)) exit;
+        
+        $area = $this->getArea($id);
+        $area["crags"] = $this->getCrags($id);
+
+        return $area;
     }
 
     private function getArea($id)

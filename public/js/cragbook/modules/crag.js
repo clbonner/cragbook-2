@@ -68,8 +68,8 @@ function viewCrag(id) {
 
 // inserts data to the crag page template for the info section
 function createCragInfo(crag, template) {
-    template.getElementById("name").innerHTML = crag.name;
-    template.getElementById("description").innerHTML = crag.description;
+    template.getElementById("name").innerText = crag.name;
+    template.getElementById("description").innerText = crag.description;
     template.getElementById("approach").innerText = crag.approach;
     template.getElementById("access").innerText = crag.access;
     template.getElementById("policy").innerText = crag.policy;

@@ -5,11 +5,11 @@ use mysqli;
 
 class Request {
     protected $connection;
-    protected $data;
 
-    function __construct()
+    public function __construct()
     {
         require __DIR__ ."/../../../config.php";
+        
         // open database
         $this->connection = new mysqli(
             $DATABASE["hostname"], 
@@ -24,10 +24,19 @@ class Request {
         }
     }
 
-    function __destruct()
+    public function __destruct()
     {
         // close database
         $this->connection->close();
+    }
+
+    protected function escapeHTML($array)
+    {
+        foreach ($array as $value) {
+            $value = htmlspecialchars_decode($value);
+        }
+
+        return $array;
     }
 }
 

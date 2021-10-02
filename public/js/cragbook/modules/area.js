@@ -51,8 +51,8 @@ function viewArea(id) {
             }).then( (html) => {
                 template = createTemplate(html);
 
-                template.getElementById("name").innerHTML = area.name;
-                template.getElementById("description").innerHTML = area.description;
+                template.getElementById("name").innerText = area.name;
+                template.getElementById("description").innerText = area.description;
 
                 latlng = area.location.split(",");
                 center = new google.maps.LatLng(latlng[0], latlng[1]);
