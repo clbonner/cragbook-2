@@ -32,6 +32,14 @@ class GuideRequest extends Request implements RequestInterface
 
     public function getID($id)
     {
+        $guide = $this->getGuide($id);
+        $guide["crags"] = $this->getCrags($id);
+
+        return $guide;
+    }
+
+    private function getGuide($id)
+    {
         if (!is_numeric($id)) exit;
     
         if (isLoggedIn()) {
@@ -45,9 +53,31 @@ class GuideRequest extends Request implements RequestInterface
             exit("Error retrieving guide data: " .$this->connection->error);
         }
         
-        return $guide = $result->fetch_assoc();
+        return $result->fetch_assoc();
     }
 
+    private function getCrags($id)
+    {
+        if (!is_numeric($id)) exit;
+    
+        if (isLoggedIn()) {
+            $sql = "SELECT * FROM crags WHERE guideid=" .$id .";";
+        } 
+        else {
+            $sql = "SELECT * FROM crags WHERE guideid=" .$id ." AND draft=0;";
+        }
+
+        if (!$result = $this->connection->query($sql)) {
+            exit("Error retrieving guide data: " .$this->connection->error);
+        }
+        
+        $crags = [];
+        while ($crag = $result->fetch_assoc()) {
+            array_push($crags, $crag);
+        }
+        
+        return $crags;
+    }
 
     private function addArea()
     {

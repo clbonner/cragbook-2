@@ -29,7 +29,7 @@ function viewGuides() {
 
 // view a single guide
 function viewGuide(id) {
-    let guide, crags, areas, template;
+    let guide, crags, template;
 
     // get guide data
     fetch("/api/request.php?request=guide&id=" + id).then(( response ) => {
@@ -56,18 +56,18 @@ function viewGuide(id) {
 
 
 // takes an array of guides and a function name as dest
-function createGuideList(guides, dest, template) {
-    let guide, cover, description, name, i;
+function createGuideList(guides, event, template) {
+    let guide;
     let guideTemplate = template.getElementById("guidetemplate");
 
-    for (i in guides) {
+    guides.forEach(item => {
         guide = guideTemplate.content.cloneNode(true);
-        cover = guide.getElementById("cover").setAttribute("src", guides[i].cover);
-        name = guide.getElementById("name").innerText = guides[i].name;
-        description = guide.getElementById("subtitle").innerText = guides[i].subtitle;
-        guide.getElementById("guide").addEventListener("click", function () { dest(guides[i].guideid) });
+        guide.getElementById("cover").setAttribute("src", item.cover);
+        guide.getElementById("name").innerText = item.name;
+        guide.getElementById("subtitle").innerText = item.subtitle;
+        guide.getElementById("guide").addEventListener("click", () => (event(item.guideid)));
         template.getElementById("list").appendChild(guide);
-    }
+    });
 }
 
 // creates the guide in the DOM

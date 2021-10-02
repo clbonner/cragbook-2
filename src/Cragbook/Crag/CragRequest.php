@@ -58,7 +58,7 @@ class CragRequest extends Request implements RequestInterface
 
     private function getRoutes($id)
     {
-        $sql = "SELECT * FROM routes ORDER BY orderid ASC;";
+        $sql = "SELECT * FROM routes WHERE cragid=" .$id ." ORDER BY orderid ASC;";
 
         if (!$result = $this->connection->query($sql)) {
             exit("Error in CragRequest.php: " .$this->connection->error);
