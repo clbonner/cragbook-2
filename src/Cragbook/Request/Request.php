@@ -29,15 +29,6 @@ class Request {
         // close database
         $this->connection->close();
     }
-
-    protected function escapeHTML($array)
-    {
-        foreach ($array as $value) {
-            $value = htmlspecialchars_decode($value);
-        }
-
-        return $array;
-    }
 }
 
 ?>
