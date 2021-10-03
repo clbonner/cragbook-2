@@ -33,6 +33,8 @@ class CragRequest extends Request implements RequestInterface
     // returns a single crag from the database
     public function getID($id)
     {
+        if (!is_numeric($id)) exit;
+        
         $crag = $this->getCrag($id);
         $crag["routes"] = $this->getRoutes($id);
 
