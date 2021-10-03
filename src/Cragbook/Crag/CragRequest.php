@@ -8,6 +8,7 @@ use function Cragbook\Helpers\isLoggedIn;
 
 class CragRequest extends Request implements RequestInterface 
 {
+    // returns a list of all crags in the database
     public function getAll()
     {
         if (isLoggedIn()) {
@@ -22,16 +23,14 @@ class CragRequest extends Request implements RequestInterface
         }
 
         $crags = [];
-
         while ($crag = $result->fetch_assoc()) {
-            $crag["description"] = htmlspecialchars_decode($crag["description"]);
-            $crag["approach"] = htmlspecialchars_decode($crag["approach"]);
             array_push($crags, $crag);
         }
 
         return $crags;
     }
 
+    // returns a single crag from the database
     public function getID($id)
     {
         $crag = $this->getCrag($id);
@@ -40,13 +39,16 @@ class CragRequest extends Request implements RequestInterface
         return $crag;
     }
 
+    // returns crag data from the database
     private function getCrag($id)
     {
         if (isLoggedIn()) {
-            $sql = "SELECT * FROM crags WHERE cragid=" .$id .";";
+            $sql = "SELECT * FROM crags WHERE cragid=" 
+                .$this->connection->real_escape_string($id) .";";
         }
         else {
-            $sql = "SELECT * FROM crags WHERE cragid=" .$id ." AND draft=0;";
+            $sql = "SELECT * FROM crags WHERE cragid=" 
+                .$this->connection->real_escape_string($id) ." AND draft=0;";
         }
 
         if (!$result = $this->connection->query($sql)) {
@@ -56,16 +58,17 @@ class CragRequest extends Request implements RequestInterface
         return $result->fetch_assoc();
     }
 
+    // returns a list of routes for the given crag
     private function getRoutes($id)
     {
-        $sql = "SELECT * FROM routes WHERE cragid=" .$id ." ORDER BY orderid ASC;";
+        $sql = "SELECT * FROM routes WHERE cragid=" 
+            .$this->connection->real_escape_string($id) ." ORDER BY orderid ASC;";
 
         if (!$result = $this->connection->query($sql)) {
             exit("Error in CragRequest.php: " .$this->connection->error);
         }
 
         $routes = [];
-
         while ($route = $result->fetch_assoc()) {
             array_push($routes, $route);
         }

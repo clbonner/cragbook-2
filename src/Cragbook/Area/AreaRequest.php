@@ -8,6 +8,7 @@ use function Cragbook\Helpers\isLoggedIn;
 
 class AreaRequest extends Request implements RequestInterface 
 {
+    // returns all areas from the database
     public function getAll()
     {
         if (isLoggedIn()) {
@@ -23,13 +24,13 @@ class AreaRequest extends Request implements RequestInterface
         
         $areas = [];
         while ($area = $result->fetch_assoc()) {
-            $area["description"] = htmlspecialchars_decode($area["description"]);
             array_push($areas, $area);
         }
 
         return $areas;
     }
 
+    // returns a single area from the database
     public function getID($id) 
     {
         if (!is_numeric($id)) exit;
@@ -40,13 +41,16 @@ class AreaRequest extends Request implements RequestInterface
         return $area;
     }
 
+    // return area data
     private function getArea($id)
     {
         if (isLoggedIn()) {
-            $sql = "SELECT * FROM areas WHERE areaid=" .$id .";";
+            $sql = "SELECT * FROM areas WHERE areaid=" 
+                .$this->connection->real_escape_string($id) .";";
         } 
         else {
-            $sql = "SELECT * FROM areas WHERE areaid=" .$id ." AND draft=0;";
+            $sql = "SELECT * FROM areas WHERE areaid=" 
+                .$this->connection->real_escape_string($id) ." AND draft=0;";
         }
 
         if (!$result = $this->connection->query($sql)) {
@@ -56,13 +60,16 @@ class AreaRequest extends Request implements RequestInterface
         return $result->fetch_assoc();
     }
 
+    // return a list of crags for the given area
     private function getCrags($id)
     {
         if (isLoggedIn()) {
-            $sql = "SELECT * FROM crags WHERE areaid=" .$id .";";
+            $sql = "SELECT * FROM crags WHERE areaid=" 
+                .$this->connection->real_escape_string($id) .";";
         } 
         else {
-            $sql = "SELECT * FROM crags WHERE areaid=" .$id ." AND draft=0;";
+            $sql = "SELECT * FROM crags WHERE areaid=" 
+                .$this->connection->real_escape_string($id) ." AND draft=0;";
         }
 
         if (!$result = $this->connection->query($sql)) {
@@ -70,7 +77,6 @@ class AreaRequest extends Request implements RequestInterface
         }
         
         $crags = [];
-
         while ($crag = $result->fetch_assoc()) {
             array_push($crags, $crag);
         }

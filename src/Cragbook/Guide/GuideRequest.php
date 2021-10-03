@@ -8,6 +8,7 @@ use function Cragbook\Helpers\isLoggedIn;
 
 class GuideRequest extends Request implements RequestInterface 
 {
+    // returns a list of all guidebooks in the database
     public function getAll()
     {
         if (isLoggedIn()) {
@@ -22,7 +23,6 @@ class GuideRequest extends Request implements RequestInterface
         }
         
         $guides = [];
-
         while ($guide = $result->fetch_assoc()) {
             array_push($guides, $guide);
         }
@@ -30,6 +30,7 @@ class GuideRequest extends Request implements RequestInterface
         return $guides;
     }
 
+    // combine and return guidebook and crag data
     public function getID($id)
     {
         $guide = $this->getGuide($id);
@@ -38,15 +39,18 @@ class GuideRequest extends Request implements RequestInterface
         return $guide;
     }
 
+    // returns the guidebook data given its id
     private function getGuide($id)
     {
         if (!is_numeric($id)) exit;
     
         if (isLoggedIn()) {
-            $sql = "SELECT * FROM guides WHERE guideid=" .$id .";";
+            $sql = "SELECT * FROM guides WHERE guideid=" 
+                .$this->connection->real_escape_string($id) .";";
         } 
         else {
-            $sql = "SELECT * FROM guides WHERE guideid=" .$id ." AND draft=0;";
+            $sql = "SELECT * FROM guides WHERE guideid=" 
+                .$this->connection->real_escape_string($id) ." AND draft=0;";
         }
 
         if (!$result = $this->connection->query($sql)) {
@@ -56,15 +60,18 @@ class GuideRequest extends Request implements RequestInterface
         return $result->fetch_assoc();
     }
 
+    // returns a list of crags associated with the guidebook id
     private function getCrags($id)
     {
         if (!is_numeric($id)) exit;
     
         if (isLoggedIn()) {
-            $sql = "SELECT * FROM crags WHERE guideid=" .$id .";";
+            $sql = "SELECT * FROM crags WHERE guideid=" 
+                .$this->connection->real_escape_string($id) .";";
         } 
         else {
-            $sql = "SELECT * FROM crags WHERE guideid=" .$id ." AND draft=0;";
+            $sql = "SELECT * FROM crags WHERE guideid=" 
+                .$this->connection->real_escape_string($id) ." AND draft=0;";
         }
 
         if (!$result = $this->connection->query($sql)) {
