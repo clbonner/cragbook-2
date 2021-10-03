@@ -3,9 +3,12 @@
 // Return html template from templates folder.
 if($_SERVER["REQUEST_METHOD"] == "GET")
 {
-    $template = $_GET["id"];
+    $template = __DIR__ ."/../../templates/" .$_GET["id"];
 
-    echo file_get_contents(__DIR__ ."/../../templates/" . $template . ".html");
+    if (file_exists($template .".html")) $template = $template .".html";
+    else $template = $template .".php";
+
+    echo file_get_contents($template);
 }
 
 ?>
