@@ -12,7 +12,7 @@ function viewCrags() {
     let element = "list";
 
     // get crags json data
-    fetch("/api/request.php?request=crags").then((response) => {
+    fetch("/api/request.php?request=crag").then((response) => {
         return getResponseText(response);
     }).then((json) => {
         crags = JSON.parse(json);

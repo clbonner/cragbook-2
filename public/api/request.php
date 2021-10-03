@@ -7,44 +7,27 @@ include(__DIR__ ."/../../src/Cragbook/Cragbook.php");
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
     switch ($_GET["request"]) {
-
-        case "areas":
-            $area = new AreaRequest();
-            echo json_encode($area->getAll());
-            break;
-
         case "area":
-            $area = new AreaRequest();
-            echo json_encode($area->getID($_GET["id"]));
-            break;
-
-        case "crags":
-            $crag = new CragRequest();
-            echo json_encode($crag->getAll());
+            $request = new AreaRequest();
             break;
 
         case "crag":
-            $crag = new CragRequest();
-            echo json_encode($crag->getID($_GET["id"]));
-            break;
-
-        case "guides":
-            $guide = new GuideRequest();
-            echo json_encode($guide->getAll());
+            $request = new CragRequest();
             break;
         
         case "guide":
-            $guide = new GuideRequest();
-            echo json_encode($guide->getID($_GET["id"]));
+            $request = new GuideRequest();
             break;
     }
+
+    if (isset($_GET["id"])) $json = $request->getID($_GET["id"]);
+    else $json = $request->getAll();
+    echo json_encode($json);
         
 }
 
 elseif ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 }
-
-return false;
 
 ?>

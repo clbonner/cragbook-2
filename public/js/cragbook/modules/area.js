@@ -12,7 +12,7 @@ function viewAreas() {
     let element = "list";
 
     // get areas json data
-    fetch("/api/request.php?request=areas").then( (response) => {
+    fetch("/api/request.php?request=area").then( (response) => {
         return getResponseText(response).then(( json ) => {
             areas = JSON.parse(json);
             

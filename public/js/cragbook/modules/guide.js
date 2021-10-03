@@ -8,7 +8,7 @@ function viewGuides() {
     let guides, template;
     
     // get guides data
-    fetch("/api/request.php?request=guides").then(( response ) => {
+    fetch("/api/request.php?request=guide").then(( response ) => {
         return getResponseText(response);
     }).then(( json ) => {
         guides = JSON.parse(json);
