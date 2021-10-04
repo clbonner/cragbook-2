@@ -7,8 +7,7 @@ namespace Cragbook;
 use Cragbook\Authentication\AuthRequest;
 
 if ($_GET["request"] == "isloggedin") {
-    $user = new AuthRequest();
-    echo $user->isLoggedIn();
+    echo AuthRequest::isLoggedIn();
 }
 
 ?>

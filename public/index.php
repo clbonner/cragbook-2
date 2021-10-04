@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<?php include(__DIR__ ."/../config.php") ?>
+<?php include(__DIR__ ."/../src/Cragbook/Cragbook.php") ?>
 <html lang="en" dir="ltr">
 <head>
   <meta charset="utf-8">
