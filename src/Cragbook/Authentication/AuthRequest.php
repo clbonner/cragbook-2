@@ -6,6 +6,7 @@ use Cragbook\Request\Request;
 
 class Authentication extends Request
 {
+    // check given username/password match database user
     public function loginUser($username, $password)
     {
         $sql = $this->connection->prepare("SELECT * FROM users WHERE username=?");
@@ -33,6 +34,7 @@ class Authentication extends Request
         return isset($_SESSION["userid"]);
     }
     
+    // update password in database with new hash
     public function changePassword($username, $password, $newpassword)
     {
         if ($this->loginUser()) {
