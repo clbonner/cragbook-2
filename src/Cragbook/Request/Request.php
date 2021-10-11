@@ -12,7 +12,7 @@ class Request {
         
         // open database
         $this->connection = new PDO(
-            "mysql:host={$DATABASE["hostname"]};dbname={$DATABASE["name"]}", 
+            "mysql:host={$DATABASE["hostname"]}:{$DATABASE["port"]};dbname={$DATABASE["name"]}",
             $DATABASE["user"], 
             $DATABASE["password"]
         );
