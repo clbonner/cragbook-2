@@ -1,7 +1,7 @@
 <?php 
 
 namespace Cragbook\Request;
-use mysqli;
+use PDO;
 
 class Request {
     protected $connection;
@@ -11,23 +11,17 @@ class Request {
         require __DIR__ ."/../../../config.php";
         
         // open database
-        $this->connection = new mysqli(
-            $DATABASE["hostname"], 
+        $this->connection = new PDO(
+            "mysql:host={$DATABASE["hostname"]};dbname={$DATABASE["name"]}", 
             $DATABASE["user"], 
-            $DATABASE["password"], 
-            $DATABASE["name"], 
-            $DATABASE["port"]
+            $DATABASE["password"]
         );
-    
-        if ($this->connection->connect_error) {
-            exit("Connection failed: " . $this->connection->connect_error);
-        }
     }
 
     public function __destruct()
     {
         // close database
-        $this->connection->close();
+        $this->connection = null;
     }
 }
 

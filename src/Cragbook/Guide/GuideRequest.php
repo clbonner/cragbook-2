@@ -19,15 +19,10 @@ class GuideRequest extends Request implements RequestInterface
         }
 
         if (!$result = $this->connection->query($sql)) {
-            exit("Error retrieving guides data: " .$this->connection->error);
-        }
-        
-        $guides = [];
-        while ($guide = $result->fetch_assoc()) {
-            array_push($guides, $guide);
+            exit("Error retrieving guides data: " .$this->connection->errorCode());
         }
 
-        return $guides;
+        return $result->fetchAll();
     }
 
     // combine and return guidebook and crag data
@@ -35,7 +30,8 @@ class GuideRequest extends Request implements RequestInterface
     {
         if (!is_numeric($id)) exit;
 
-        $guide = $this->getGuide($id);
+        $guideInfo = $this->getGuide($id);
+        $guide = $guideInfo[0];
         $guide["crags"] = $this->getCrags($id);
 
         return $guide;
@@ -45,43 +41,38 @@ class GuideRequest extends Request implements RequestInterface
     private function getGuide($id)
     {    
         if (isLoggedIn()) {
-            $sql = "SELECT * FROM guides WHERE guideid=" 
-                .$this->connection->real_escape_string($id) .";";
-        } 
+            $sql = $this->connection->prepare("SELECT * FROM guides WHERE guideid=:id");
+        }
         else {
-            $sql = "SELECT * FROM guides WHERE guideid=" 
-                .$this->connection->real_escape_string($id) ." AND draft=0;";
+            $sql = $this->connection->prepare("SELECT * FROM guides WHERE guideid=:id AND draft=0;");
         }
 
-        if (!$result = $this->connection->query($sql)) {
-            exit("Error retrieving guide data: " .$this->connection->error);
+        $sql->bindParam(":id", $id);
+
+        if (!$sql->execute()) {
+            exit("Error retrieving guide data: " .$this->connection->errorCode());
         }
         
-        return $result->fetch_assoc();
+        return $sql->fetchAll();
     }
 
     // returns a list of crags associated with the guidebook id
     private function getCrags($id)
     {    
         if (isLoggedIn()) {
-            $sql = "SELECT * FROM crags WHERE guideid=" 
-                .$this->connection->real_escape_string($id) .";";
+            $sql = $this->connection->prepare("SELECT * FROM crags WHERE guideid=:id");
         } 
         else {
-            $sql = "SELECT * FROM crags WHERE guideid=" 
-                .$this->connection->real_escape_string($id) ." AND draft=0;";
+            $sql = $this->connection->prepare("SELECT * FROM crags WHERE guideid=:id AND draft=0;");
         }
 
-        if (!$result = $this->connection->query($sql)) {
-            exit("Error retrieving guide data: " .$this->connection->error);
+        $sql->bindParam(':id', $id);
+
+        if (!$sql->execute()) {
+            exit("Error retrieving guide data: " .$this->connection->errorCode());
         }
         
-        $crags = [];
-        while ($crag = $result->fetch_assoc()) {
-            array_push($crags, $crag);
-        }
-        
-        return $crags;
+        return $sql->fetchAll();
     }
 
     private function addArea()

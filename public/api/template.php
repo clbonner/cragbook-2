@@ -1,13 +1,13 @@
 <?php
 
-namespace Cragbook\Helpers;
+namespace Cragbook;
 
 include(__DIR__ ."/../../src/Cragbook/Cragbook.php");
 
 // Return html template from templates folder.
 if($_SERVER["REQUEST_METHOD"] == "GET")
 {
-    $file = stripSlashesPeriods($_GET["id"]);    
+    $file = Helpers\stripSlashesPeriods($_GET["id"]);    
 
     $template = __DIR__ ."/../../templates/" .$file;
 
