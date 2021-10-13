@@ -19,15 +19,10 @@ class CragRequest extends Request implements RequestInterface
         }
 
         if (!$result = $this->connection->query($sql)) {
-            exit("Error in CragRequest.php: " .$this->connection->error);
+            exit("Error in CragRequest.php: " .$this->connection->errorCode());
         }
 
-        $crags = [];
-        while ($crag = $result->fetch_assoc()) {
-            array_push($crags, $crag);
-        }
-
-        return $crags;
+        return $result->fetchAll();
     }
 
     // returns a single crag from the database
@@ -35,7 +30,8 @@ class CragRequest extends Request implements RequestInterface
     {
         if (!is_numeric($id)) exit;
         
-        $crag = $this->getCrag($id);
+        $cragInfo = $this->getCrag($id);
+        $crag = $cragInfo[0];
         $crag["routes"] = $this->getRoutes($id);
 
         return $crag;
@@ -45,36 +41,31 @@ class CragRequest extends Request implements RequestInterface
     private function getCrag($id)
     {
         if (isLoggedIn()) {
-            $sql = "SELECT * FROM crags WHERE cragid=" 
-                .$this->connection->real_escape_string($id) .";";
+            $sql = $this->connection->prepare("SELECT * FROM crags WHERE cragid=:id;");
         }
         else {
-            $sql = "SELECT * FROM crags WHERE cragid=" 
-                .$this->connection->real_escape_string($id) ." AND draft=0;";
+            $sql = $this->connection->prepare("SELECT * FROM crags WHERE cragid=:id AND draft=0;");
         }
 
-        if (!$result = $this->connection->query($sql)) {
-            exit("Error in CragRequest.php: " .$this->connection->error);
+        $sql->bindParam(':id', $id);
+
+        if (!$sql->execute()) {
+            exit("Error in CragRequest.php: " .$this->connection->errorCode());
         }
 
-        return $result->fetch_assoc();
+        return $sql->fetchAll();
     }
 
     // returns a list of routes for the given crag
     private function getRoutes($id)
     {
-        $sql = "SELECT * FROM routes WHERE cragid=" 
-            .$this->connection->real_escape_string($id) ." ORDER BY orderid ASC;";
+        $sql = $this->connection->prepare("SELECT * FROM routes WHERE cragid=:id ORDER BY orderid ASC;");
+        $sql->bindParam(':id', $id);
 
-        if (!$result = $this->connection->query($sql)) {
-            exit("Error in CragRequest.php: " .$this->connection->error);
+        if (!$sql->execute()) {
+            exit("Error in CragRequest.php: " .$this->connection->errorCode());
         }
 
-        $routes = [];
-        while ($route = $result->fetch_assoc()) {
-            array_push($routes, $route);
-        }
-
-        return $routes;
+        return $sql->fetchAll();
     }
 }
