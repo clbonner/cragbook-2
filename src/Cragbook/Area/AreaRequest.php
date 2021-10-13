@@ -19,15 +19,10 @@ class AreaRequest extends Request implements RequestInterface
         }
 
         if (!$result = $this->connection->query($sql)) {
-            exit("Error retrieving all areas data: " .$this->connection->error);
-        }
-        
-        $areas = [];
-        while ($area = $result->fetch_assoc()) {
-            array_push($areas, $area);
+            exit("Error retrieving all areas data: " .$this->connection->errorCode());
         }
 
-        return $areas;
+        return $result->fetchAll();
     }
 
     // returns a single area from the database
@@ -35,7 +30,8 @@ class AreaRequest extends Request implements RequestInterface
     {
         if (!is_numeric($id)) exit;
         
-        $area = $this->getArea($id);
+        $areaInfo = $this->getArea($id);
+        $area = $areaInfo[0];
         $area["crags"] = $this->getCrags($id);
 
         return $area;
@@ -45,43 +41,38 @@ class AreaRequest extends Request implements RequestInterface
     private function getArea($id)
     {
         if (isLoggedIn()) {
-            $sql = "SELECT * FROM areas WHERE areaid=" 
-                .$this->connection->real_escape_string($id) .";";
+            $sql = $this->connection->prepare("SELECT * FROM areas WHERE areaid=:id;");
         } 
         else {
-            $sql = "SELECT * FROM areas WHERE areaid=" 
-                .$this->connection->real_escape_string($id) ." AND draft=0;";
+            $sql = $this->connection->prepare("SELECT * FROM areas WHERE areaid=:id AND draft=0;");
         }
 
-        if (!$result = $this->connection->query($sql)) {
-            exit("Error retrieving area data: " .$this->connection->error);
+        $sql->bindParam(':id', $id);
+
+        if (!$sql->execute()) {
+            exit("Error retrieving area data: " .$this->connection->errorCode());
         }
         
-        return $result->fetch_assoc();
+        return $sql->fetchAll();
     }
 
     // return a list of crags for the given area
     private function getCrags($id)
     {
         if (isLoggedIn()) {
-            $sql = "SELECT * FROM crags WHERE areaid=" 
-                .$this->connection->real_escape_string($id) .";";
+            $sql = $this->connection->prepare("SELECT * FROM crags WHERE areaid=:id;");
         } 
         else {
-            $sql = "SELECT * FROM crags WHERE areaid=" 
-                .$this->connection->real_escape_string($id) ." AND draft=0;";
+            $sql = $this->connection->prepare("SELECT * FROM crags WHERE areaid=:id AND draft=0;");
         }
 
-        if (!$result = $this->connection->query($sql)) {
-            exit("Error retrieving area data: " .$this->connection->error);
+        $sql->bindParam(':id', $id);
+
+        if (!$sql->execute()) {
+            exit("Error retrieving area data: " .$this->connection->errorCode());
         }
         
-        $crags = [];
-        while ($crag = $result->fetch_assoc()) {
-            array_push($crags, $crag);
-        }
-
-        return $crags;
+        return $sql->fetchAll();
     }
     
     private function addArea()
