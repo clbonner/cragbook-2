@@ -56,7 +56,7 @@ function viewArea(id) {
 
                 latlng = area.location.split(",");
                 center = new google.maps.LatLng(latlng[0], latlng[1]);
-                createMap("areaid", center, crags, viewArea, template);
+                createMap("cragid", center, crags, viewCrag, template);
                 createList(crags, "cragid", viewCrag, "list", template);
                 loadTemplateView(template);
                 cragbook.trail.addCrumb(area.name, () => (viewArea(area.areaid)));
