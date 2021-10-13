@@ -11,5 +11,6 @@ include(__DIR__ ."/Helpers/Helpers.php");
 include(__DIR__ ."/Area/AreaRequest.php");
 include(__DIR__ ."/Crag/CragRequest.php");
 include(__DIR__ ."/Guide/GuideRequest.php");
+include(__DIR__ ."/Authentication/AuthRequest.php");
 
 ?>

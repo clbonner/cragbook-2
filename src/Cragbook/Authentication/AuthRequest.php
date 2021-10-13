@@ -4,7 +4,7 @@ namespace Cragbook;
 
 use Cragbook\Request\Request;
 
-class Authentication extends Request
+class AuthRequest extends Request
 {
     // check given username/password match database user
     public function loginUser($username, $password)
@@ -51,4 +51,4 @@ class Authentication extends Request
     }    
 }
 
-?>;
+?>

@@ -4,10 +4,12 @@
 
 namespace Cragbook;
 
-use Cragbook\Authentication\AuthRequest;
+use Cragbook\AuthRequest;
+
+include(__DIR__ ."/../../src/Cragbook/Cragbook.php");
 
 if ($_GET["request"] == "isloggedin") {
-    echo AuthRequest::isLoggedIn();
+    var_dump(AuthRequest::isLoggedIn());
 }
 
 ?>
