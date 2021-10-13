@@ -9,14 +9,14 @@ class Authentication extends Request
     // check given username/password match database user
     public function loginUser($username, $password)
     {
-        $sql = $this->connection->prepare("SELECT * FROM users WHERE username=?");
-        $sql->bind_param("i", $username);
-        $result = $this->connection->query($sql);
+        $sql = $this->connection->prepare("SELECT * FROM users WHERE username=:username");
+        $sql->bindParam(':username', $username);
+        $sql->execute();
 
-        if ($result->num_rows() == 1) {
-            $credential = $result->fetch_assoc();
-            if (password_verify($password, $credential["password"])) {
-                $_SESSION["userid"] = $credential["userid"];
+        if ($sql->rowCount() == 1) {
+            $credential = $sql->fetchAll();
+            if ($credential[0]["username"] == $username && password_verify($password, $credential[0]["password"])) {
+                $_SESSION["userid"] = $credential[0]["userid"];
                 return true;
             }
         }        
@@ -40,8 +40,9 @@ class Authentication extends Request
         if ($this->loginUser()) {
             $password = password_hash($newpassword, PASSWORD_DEFAULT);
 
-            $sql = $this->connection->prepare("UPDATE users SET password=? WHERE username=?");
-            $sql->bind_param("ss", $password, $username);
+            $sql = $this->connection->prepare("UPDATE users SET password=:password WHERE username=:username");
+            $sql->bindParam(':username', $username);
+            $sql->bindParam(':password', $password);
             
             return $sql->execute();
         }
