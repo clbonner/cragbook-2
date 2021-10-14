@@ -37,7 +37,7 @@ class AuthRequest extends Request
     // update password in database with new hash
     public function changePassword($username, $password, $newpassword)
     {
-        if ($this->loginUser()) {
+        if ($this->loginUser($username, $password)) {
             $password = password_hash($newpassword, PASSWORD_DEFAULT);
 
             $sql = $this->connection->prepare("UPDATE users SET password=:password WHERE username=:username");
