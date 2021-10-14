@@ -4,6 +4,11 @@ namespace Cragbook;
 
 include(__DIR__ ."/../../src/Cragbook/Cragbook.php");
 
+use Cragbook\Area\AreaRequest;
+use Cragbook\Crag\CragRequest;
+use Cragbook\Guide\GuideRequest;
+
+
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     switch ($_GET["request"]) {
         case "area":

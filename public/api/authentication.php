@@ -2,9 +2,7 @@
 
 // controller for user authentication
 
-namespace Cragbook;
-
-use Cragbook\AuthRequest;
+namespace Cragbook\Authentication;
 
 include(__DIR__ ."/../../src/Cragbook/Cragbook.php");
 

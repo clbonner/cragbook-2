@@ -1,6 +1,6 @@
 <?php
 
-namespace Cragbook;
+namespace Cragbook\Authentication;
 
 use Cragbook\Request\Request;
 

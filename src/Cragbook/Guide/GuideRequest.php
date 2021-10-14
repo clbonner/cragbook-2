@@ -1,6 +1,6 @@
 <?php
 
-namespace Cragbook;
+namespace Cragbook\Guide;
 
 use Cragbook\Request\Request;
 use Cragbook\Request\RequestInterface;
