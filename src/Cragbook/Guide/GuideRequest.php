@@ -4,14 +4,14 @@ namespace Cragbook\Guide;
 
 use Cragbook\Request\Request;
 use Cragbook\Request\RequestInterface;
-use function Cragbook\Helpers\isLoggedIn;
+use Cragbook\Authentication\AuthRequest;
 
 class GuideRequest extends Request implements RequestInterface 
 {
     // returns a list of all guidebooks in the database
     public function getAll()
     {
-        if (isLoggedIn()) {
+        if (AuthRequest::isLoggedIn()) {
             $sql = "SELECT * FROM guides ORDER BY name ASC;";
         }
         else {
@@ -40,7 +40,7 @@ class GuideRequest extends Request implements RequestInterface
     // returns the guidebook data given its id
     private function getGuide($id)
     {    
-        if (isLoggedIn()) {
+        if (AuthRequest::isLoggedIn()) {
             $sql = $this->connection->prepare("SELECT * FROM guides WHERE guideid=:id");
         }
         else {
@@ -59,7 +59,7 @@ class GuideRequest extends Request implements RequestInterface
     // returns a list of crags associated with the guidebook id
     private function getCrags($id)
     {    
-        if (isLoggedIn()) {
+        if (AuthRequest::isLoggedIn()) {
             $sql = $this->connection->prepare("SELECT * FROM crags WHERE guideid=:id");
         } 
         else {

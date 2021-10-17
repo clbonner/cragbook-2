@@ -4,14 +4,14 @@ namespace Cragbook\Crag;
 
 use Cragbook\Request\Request;
 use Cragbook\Request\RequestInterface;
-use function Cragbook\Helpers\isLoggedIn;
+use Cragbook\Authentication\AuthRequest;
 
 class CragRequest extends Request implements RequestInterface 
 {
     // returns a list of all crags in the database
     public function getAll()
     {
-        if (isLoggedIn()) {
+        if (AuthRequest::isLoggedIn()) {
             $sql = "SELECT * FROM crags ORDER BY name ASC;";
         }
         else {
@@ -40,7 +40,7 @@ class CragRequest extends Request implements RequestInterface
     // returns crag data from the database
     private function getCrag($id)
     {
-        if (isLoggedIn()) {
+        if (AuthRequest::isLoggedIn()) {
             $sql = $this->connection->prepare("SELECT * FROM crags WHERE cragid=:id;");
         }
         else {

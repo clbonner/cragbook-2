@@ -4,14 +4,14 @@ namespace Cragbook\Area;
 
 use Cragbook\Request\Request;
 use Cragbook\Request\RequestInterface;
-use function Cragbook\Helpers\isLoggedIn;
+use Cragbook\Authentication\AuthRequest;
 
 class AreaRequest extends Request implements RequestInterface 
 {
     // returns all areas from the database
     public function getAll()
     {
-        if (isLoggedIn()) {
+        if (AuthRequest::isLoggedIn()) {
             $sql = "SELECT * FROM areas ORDER BY name ASC;";
         }
         else {
@@ -40,7 +40,7 @@ class AreaRequest extends Request implements RequestInterface
     // return area data
     private function getArea($id)
     {
-        if (isLoggedIn()) {
+        if (AuthRequest::isLoggedIn()) {
             $sql = $this->connection->prepare("SELECT * FROM areas WHERE areaid=:id;");
         } 
         else {
@@ -59,7 +59,7 @@ class AreaRequest extends Request implements RequestInterface
     // return a list of crags for the given area
     private function getCrags($id)
     {
-        if (isLoggedIn()) {
+        if (AuthRequest::isLoggedIn()) {
             $sql = $this->connection->prepare("SELECT * FROM crags WHERE areaid=:id;");
         } 
         else {
