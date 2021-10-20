@@ -11,11 +11,17 @@ class Request {
         require __DIR__ ."/../../../config.php";
         
         // open database
-        $this->connection = new PDO(
-            "mysql:host={$DATABASE["hostname"]}:{$DATABASE["port"]};dbname={$DATABASE["name"]}",
-            $DATABASE["user"], 
-            $DATABASE["password"]
-        );
+        try {
+            $this->connection = new PDO(
+                "mysql:host={$DATABASE["hostname"]}:{$DATABASE["port"]};dbname={$DATABASE["name"]}",
+                $DATABASE["user"], 
+                $DATABASE["password"]
+            );
+            $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        }
+        catch (PDOException $e) {
+            echo "Error connecting to database: " . $e->getMessage();
+        }
     }
 
     public function __destruct()
