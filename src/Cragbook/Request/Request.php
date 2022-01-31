@@ -18,9 +18,8 @@ class Request {
                 $DATABASE["password"]
             );
             $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        }
-        catch (PDOException $e) {
-            echo "Error connecting to database: " . $e->getMessage();
+        } catch (PDOException $e) {
+            print("Error connecting to database.");
         }
     }
 
