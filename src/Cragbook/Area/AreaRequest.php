@@ -19,7 +19,7 @@ class AreaRequest extends Request implements RequestInterface
         }
 
         if (!$result = $this->connection->query($sql)) {
-            exit("Error retrieving all areas data: " .$this->connection->errorCode());
+            exit("Error retrieving all areas data.");
         }
 
         return $result->fetchAll();
@@ -50,7 +50,7 @@ class AreaRequest extends Request implements RequestInterface
         $sql->bindParam(':id', $id);
 
         if (!$sql->execute()) {
-            exit("Error retrieving area data: " .$this->connection->errorCode());
+            exit("Error retrieving area data.");
         }
         
         return $sql->fetchAll();
@@ -69,7 +69,7 @@ class AreaRequest extends Request implements RequestInterface
         $sql->bindParam(':id', $id);
 
         if (!$sql->execute()) {
-            exit("Error retrieving area data: " .$this->connection->errorCode());
+            exit("Error retrieving area data.");
         }
         
         return $sql->fetchAll();
@@ -90,14 +90,14 @@ class AreaRequest extends Request implements RequestInterface
         // get area and crag details
         $sql = "SELECT * FROM areas WHERE areaid=" .$_SESSION["id"] .";";
         if (!$result = $db->query($sql))
-            error("Error in admin/area.php: " .$db->error);
+            error("Error in admin/area.php: ");
         else
             $area = $result->fetch_assoc();
 
 
         $sql = "SELECT * FROM crags WHERE areaid=" .$area["areaid"];
         if (!$result = $db->query($sql)) 
-            error("Error in admin/area.php: " .$db->error);
+            error("Error in admin/area.php: ");
         else {
             $crags = [];
             while($row = $result->fetch_assoc())
@@ -108,17 +108,17 @@ class AreaRequest extends Request implements RequestInterface
         foreach ($crags as $crag) {
             $sql = "DELETE FROM crags WHERE cragid=" .$crag["cragid"] .";";
             if (!$result = $db->query($sql))
-                error("Error in admin/area.php: " .$db->error);
+                error("Error in admin/area.php: ");
             
             $sql = "DELETE FROM routes WHERE cragid=" .$crag["cragid"] .";";
             if (!$result = $db->query($sql))
-                error("Error in admin/area.php: " .$db->error);
+                error("Error in admin/area.php: ");
         }
 
         // remove area
         $sql = "DELETE FROM areas WHERE areaid=" .$area["areaid"] .";";
         if (!$result = $db->query($sql))
-            error("Error in admin/area.php: " .$db->error);
+            error("Error in admin/area.php: ");
     }
 }
 

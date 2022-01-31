@@ -19,7 +19,7 @@ class CragRequest extends Request implements RequestInterface
         }
 
         if (!$result = $this->connection->query($sql)) {
-            exit("Error in CragRequest.php: " .$this->connection->errorCode());
+            exit("Error retrieving crags.");
         }
 
         return $result->fetchAll();
@@ -50,7 +50,7 @@ class CragRequest extends Request implements RequestInterface
         $sql->bindParam(':id', $id);
 
         if (!$sql->execute()) {
-            exit("Error in CragRequest.php: " .$this->connection->errorCode());
+            exit("Error retrieving crag.");
         }
 
         return $sql->fetchAll();
@@ -63,7 +63,7 @@ class CragRequest extends Request implements RequestInterface
         $sql->bindParam(':id', $id);
 
         if (!$sql->execute()) {
-            exit("Error in CragRequest.php: " .$this->connection->errorCode());
+            exit("Error retrieving crag routes.");
         }
 
         return $sql->fetchAll();

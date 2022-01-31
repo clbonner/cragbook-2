@@ -25,7 +25,7 @@ class RouteRequest extends Request implements RequestInterface
         $sql = "SELECT * FROM routes WHERE cragid = " .$id ." ORDER BY orderid ASC;";
                 
         if (!$result = $this->connection->query($sql)) {
-            exit("Error in route_json.php: " .$this->connection->error);
+            exit("Error retrieving crag routes.");
         }
         
         $this->data = [];
@@ -44,7 +44,7 @@ class RouteRequest extends Request implements RequestInterface
                 $sql = "UPDATE routes SET orderid=" .$route["orderid"] ." WHERE routeid=" .$route["routeid"] .";";
                 
                 if(!$this->connection->query($sql)){
-                    exit("Error in route_json.php: " .$connection->error);
+                    exit("Error updating route order.");
                 }
             }
         }
