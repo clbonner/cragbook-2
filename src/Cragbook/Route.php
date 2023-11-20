@@ -2,10 +2,6 @@
 
 namespace Cragbook;
 
-use Cragbook\Request\Request;
-use Cragbook\Request\RequestInterface;
-use Cragbook\Helpers\isLoggedIn;
-
 class RouteRequest extends Request implements RequestInterface
 {
     public function getRequest($url) 

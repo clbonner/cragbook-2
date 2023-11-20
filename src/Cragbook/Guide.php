@@ -1,10 +1,6 @@
 <?php
 
-namespace Cragbook\Guide;
-
-use Cragbook\Request\Request;
-use Cragbook\Request\RequestInterface;
-use Cragbook\Authentication\AuthRequest;
+namespace Cragbook;
 
 class GuideRequest extends Request implements RequestInterface 
 {
@@ -22,7 +18,7 @@ class GuideRequest extends Request implements RequestInterface
             exit("Error retrieving guides data.");
         }
 
-        return $result->fetchAll();
+        return json_encode($result->fetchAll());
     }
 
     // combine and return guidebook and crag data
@@ -34,7 +30,7 @@ class GuideRequest extends Request implements RequestInterface
         $guide = $guideInfo[0];
         $guide["crags"] = $this->getCrags($id);
 
-        return $guide;
+        return json_encode($guide);
     }
 
     // returns the guidebook data given its id

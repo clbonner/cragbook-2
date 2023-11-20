@@ -1,6 +1,6 @@
 <?php 
 
-namespace Cragbook\Request;
+namespace Cragbook;
 use PDO;
 
 class Request {
@@ -8,7 +8,7 @@ class Request {
 
     public function __construct()
     {
-        require __DIR__ ."/../../../config.php";
+        require __DIR__ ."/../../config.php";
         
         // open database
         try {

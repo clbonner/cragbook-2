@@ -1,8 +1,6 @@
 <?php
 
-namespace Cragbook\Authentication;
-
-use Cragbook\Request\Request;
+namespace Cragbook;
 
 class AuthRequest extends Request
 {

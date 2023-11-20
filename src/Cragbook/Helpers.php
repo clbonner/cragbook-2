@@ -1,6 +1,6 @@
 <?php
 
-namespace Cragbook\Helpers;
+namespace Cragbook;
 
 // escape any data for input/output
 function sanitiseData($data) 

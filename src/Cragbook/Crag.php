@@ -1,10 +1,6 @@
 <?php
 
-namespace Cragbook\Crag;
-
-use Cragbook\Request\Request;
-use Cragbook\Request\RequestInterface;
-use Cragbook\Authentication\AuthRequest;
+namespace Cragbook;
 
 class CragRequest extends Request implements RequestInterface 
 {
@@ -22,7 +18,7 @@ class CragRequest extends Request implements RequestInterface
             exit("Error retrieving crags.");
         }
 
-        return $result->fetchAll();
+        return json_encode($result->fetchAll());
     }
 
     // returns a single crag from the database
@@ -34,7 +30,7 @@ class CragRequest extends Request implements RequestInterface
         $crag = $cragInfo[0];
         $crag["routes"] = $this->getRoutes($id);
 
-        return $crag;
+        return json_encode($crag);
     }
 
     // returns crag data from the database

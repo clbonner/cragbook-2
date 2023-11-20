@@ -4,9 +4,9 @@ namespace Cragbook;
 
 include(__DIR__ ."/../../src/Cragbook/Cragbook.php");
 
-use Cragbook\Area\AreaRequest;
-use Cragbook\Crag\CragRequest;
-use Cragbook\Guide\GuideRequest;
+use Cragbook\AreaRequest;
+use Cragbook\CragRequest;
+use Cragbook\GuideRequest;
 
 
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
     if (isset($_GET["id"])) $json = $request->getID($_GET["id"]);
     else $json = $request->getAll();
-    echo json_encode($json);
+    echo $json;
 }
 
 elseif ($_SERVER['REQUEST_METHOD'] == 'POST') {

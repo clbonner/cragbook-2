@@ -5,12 +5,12 @@ namespace Cragbook;
 session_start();
 
 include(__DIR__ ."/../../config.php");
-include(__DIR__ ."/Request/Request.php");
-include(__DIR__ ."/Request/RequestInterface.php");
-include(__DIR__ ."/Helpers/Helpers.php");
-include(__DIR__ ."/Area/AreaRequest.php");
-include(__DIR__ ."/Crag/CragRequest.php");
-include(__DIR__ ."/Guide/GuideRequest.php");
-include(__DIR__ ."/Authentication/AuthRequest.php");
+include(__DIR__ ."/Request.php");
+include(__DIR__ ."/RequestInterface.php");
+include(__DIR__ ."/Helpers.php");
+include(__DIR__ ."/Area.php");
+include(__DIR__ ."/Crag.php");
+include(__DIR__ ."/Guide.php");
+include(__DIR__ ."/Authenticate.php");
 
 ?>
