@@ -22,7 +22,7 @@ class AreaRequest extends Request implements RequestInterface
             return false;
         }
 
-        return $result->fetchAll();
+        return json_encode($result->fetchAll());
     }
 
     // returns a single area from the database
@@ -39,7 +39,7 @@ class AreaRequest extends Request implements RequestInterface
             return false;
         }
 
-        return $result->fetchAll();
+        return json_encode($area);
     }
 
     // return area data
