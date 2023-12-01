@@ -1,7 +1,7 @@
 const defaultCenter = { lat: 51.4490382, lng: -2.5943542 };
 
 // create google map
-function createMap(id, center, list, dest, template) {
+function createMap(id, center, list, dest, path, template) {
     let contentString, location, latlng, marker, title;
     let infowindow = new google.maps.InfoWindow();
     let canvas = template.getElementById("map");
@@ -29,7 +29,10 @@ function createMap(id, center, list, dest, template) {
 
             // set marker info window content
             contentString = document.createElement("div");
-            contentString.addEventListener("click", function () { dest(list[i][id]) });
+            contentString.addEventListener("click", function () { 
+                history.pushState({page: path, id: list[i][id]}, "", "/" + path + "/" + list[i][id]);
+                dest(list[i][id]);
+            });
 
             title = document.createElement("h5");
             title.appendChild(document.createTextNode(list[i].name));

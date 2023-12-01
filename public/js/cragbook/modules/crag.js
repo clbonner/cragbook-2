@@ -26,7 +26,7 @@ function viewCrags() {
             pagination = new ListPagination(crags, 5);
             createPaginationControl(pagination, id, destination, element, path, template);
             createList(pagination.getPage(0), id, destination, element, path, template);
-            createMap(id, defaultCenter, crags, destination, template);
+            createMap(id, defaultCenter, crags, destination, path, template);
             loadTemplateView(template);
             cragbook.trail.addCrumb("Crags", viewCrags);
             createBreadcrumb();
@@ -38,6 +38,7 @@ function viewCrags() {
 // view a crag
 function viewCrag(id) {
     let crag, routes, latlng, center, template;
+    let path = "crag";
 
     // get crag json data
     fetch("/api/request.php?request=crag&id=" + id).then((response) => {
@@ -56,7 +57,7 @@ function viewCrag(id) {
             template = createTemplate(html);
             createCragInfo(crag, template);
             createGradeSummary(routes, template);
-            createMap("cragid", center, [crag], viewCrag, template);
+            createMap("cragid", center, [crag], viewCrag, path, template);
             createRouteTable(routes.getAllRoutes(), template);
             setRouteFilter(routes, template);
             setRouteTableHeaderFilters(routes, template);

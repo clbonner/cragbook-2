@@ -25,7 +25,7 @@ function viewAreas() {
                 pagination = new ListPagination(areas, 5);
                 createPaginationControl(pagination, id, destination, element, path, template);
                 createList(pagination.getPage(0), id, destination, element, path, template);
-                createMap(id, defaultCenter, areas, destination, template);
+                createMap(id, defaultCenter, areas, destination, path, template);
                 loadTemplateView(template);
                 cragbook.trail.addCrumb("Areas", viewAreas);
                 createBreadcrumb();
@@ -58,7 +58,7 @@ function viewArea(id) {
 
                 latlng = area.location.split(",");
                 center = new google.maps.LatLng(latlng[0], latlng[1]);
-                createMap("cragid", center, crags, viewCrag, template);
+                createMap("cragid", center, crags, viewCrag, path, template);
                 createList(crags, "cragid", viewCrag, "list", path, template);
                 loadTemplateView(template);
                 cragbook.trail.addCrumb(area.name, () => (viewArea(area.areaid)));
