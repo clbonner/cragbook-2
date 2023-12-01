@@ -21,6 +21,7 @@ function viewAreas() {
             fetch("/api/template.php?id=areas").then((response) => {
                 return getResponseText(response);
             }).then( (html) => {
+                document.title = `Cragbook - Areas`;
                 template = createTemplate(html);
                 pagination = new ListPagination(areas, 5);
                 createPaginationControl(pagination, id, destination, element, path, template);
@@ -51,11 +52,10 @@ function viewArea(id) {
             fetch("/api/template.php?id=area").then( (response) => {
                 return getResponseText(response);
             }).then( (html) => {
+                document.title = `Cragbook - ${area.name}`;
                 template = createTemplate(html);
-
                 template.getElementById("name").innerText = area.name;
                 template.getElementById("description").innerText = area.description;
-
                 latlng = area.location.split(",");
                 center = new google.maps.LatLng(latlng[0], latlng[1]);
                 createMap("cragid", center, crags, viewCrag, path, template);

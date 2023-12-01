@@ -17,10 +17,10 @@ function viewGuides() {
         fetch("/api/template.php?id=guides").then(( response ) => {
             return getResponseText(response);
         }).then(( html ) => {
+            document.title = `Cragbook - Guides`;
             template = createTemplate(html);
             createGuideList(guides, viewGuide, template);
             loadTemplateView(template);
-
             cragbook.trail.addCrumb("Guides", viewGuides);
             createBreadcrumb();
         });
@@ -43,12 +43,11 @@ function viewGuide(id) {
         fetch("/api/template.php?id=guide").then(( response ) => {
                 return getResponseText(response);
         }).then(( html ) => {
+            document.title = `Cragbook - ${guide.name}`;
             template = createTemplate(html);
             createGuide(guide, template);
-
             createList(crags, "cragid", viewCrag, "list", path, template);
             loadTemplateView(template);
-
             cragbook.trail.addCrumb(guide.name, () => (viewGuide(guide.guideid)));
             createBreadcrumb();
         });

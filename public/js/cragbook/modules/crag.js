@@ -22,6 +22,7 @@ function viewCrags() {
         fetch("/api/template.php?id=crags").then((response) => {
             return getResponseText(response);
         }).then((html) => {
+            document.title = `Cragbook - Crags`;
             template = createTemplate(html);
             pagination = new ListPagination(crags, 5);
             createPaginationControl(pagination, id, destination, element, path, template);
@@ -53,7 +54,7 @@ function viewCrag(id) {
         }).then((html) => {
             latlng = crag.location.split(",");
             center = new google.maps.LatLng(latlng[0], latlng[1]);
-
+            document.title = `Cragbook - ${crag.name}`;
             template = createTemplate(html);
             createCragInfo(crag, template);
             createGradeSummary(routes, template);

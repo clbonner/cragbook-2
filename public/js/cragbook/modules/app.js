@@ -17,6 +17,7 @@ function viewHome() {
     fetch("/api/template.php?id=home").then(( response ) => {
             return getResponseText(response);
         }).then(( html ) => {
+            document.title = `Cragbook`;
             template = createTemplate(html);
             loadTemplateView(template);
         });
