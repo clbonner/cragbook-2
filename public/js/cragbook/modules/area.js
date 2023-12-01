@@ -10,6 +10,7 @@ function viewAreas() {
     let id = "areaid";
     let destination = viewArea;
     let element = "list";
+    let path = "area";
 
     // get areas json data
     fetch("/api/request.php?request=area").then( (response) => {
@@ -22,8 +23,8 @@ function viewAreas() {
             }).then( (html) => {
                 template = createTemplate(html);
                 pagination = new ListPagination(areas, 5);
-                createPaginationControl(pagination, id, destination, element, template);
-                createList(pagination.getPage(0), id, destination, element, template);
+                createPaginationControl(pagination, id, destination, element, path, template);
+                createList(pagination.getPage(0), id, destination, element, path, template);
                 createMap(id, defaultCenter, areas, destination, template);
                 loadTemplateView(template);
                 cragbook.trail.addCrumb("Areas", viewAreas);
@@ -38,6 +39,7 @@ function viewAreas() {
 // shows an individual area from the database
 function viewArea(id) {
     let crags, area, latlng, center, template;
+    let path = "crag";
 
     // get area information
     fetch("/api/request.php?request=area&id=" + id).then(( response ) => {
@@ -57,7 +59,7 @@ function viewArea(id) {
                 latlng = area.location.split(",");
                 center = new google.maps.LatLng(latlng[0], latlng[1]);
                 createMap("cragid", center, crags, viewCrag, template);
-                createList(crags, "cragid", viewCrag, "list", template);
+                createList(crags, "cragid", viewCrag, "list", path, template);
                 loadTemplateView(template);
                 cragbook.trail.addCrumb(area.name, () => (viewArea(area.areaid)));
                 createBreadcrumb();

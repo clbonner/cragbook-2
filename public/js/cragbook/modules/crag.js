@@ -10,6 +10,7 @@ function viewCrags() {
     let id = "cragid";
     let destination = viewCrag;
     let element = "list";
+    let path = "crag";
 
     // get crags json data
     fetch("/api/request.php?request=crag").then((response) => {
@@ -23,8 +24,8 @@ function viewCrags() {
         }).then((html) => {
             template = createTemplate(html);
             pagination = new ListPagination(crags, 5);
-            createPaginationControl(pagination, id, destination, element, template);
-            createList(pagination.getPage(0), id, destination, element, template);
+            createPaginationControl(pagination, id, destination, element, path, template);
+            createList(pagination.getPage(0), id, destination, element, path, template);
             createMap(id, defaultCenter, crags, destination, template);
             loadTemplateView(template);
             cragbook.trail.addCrumb("Crags", viewCrags);

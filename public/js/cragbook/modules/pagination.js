@@ -73,14 +73,14 @@ class ListPagination {
 }
 
 // creates a list of either crags or areas
-function createList(list, id, destination, element, template = document) {
+function createList(list, id, destination, element, path, template = document) {
     let li, a, i;
     let fragment = document.createDocumentFragment();
     if (template === document) template.getElementById(element).innerHTML = "";
 
     for (i in list) {
         li = createElement("li", [["class", "list-group-item p-2"]]);
-        a = createElement("a", [["id", `id${list[i][id]}`], ["href", "#"]]);
+        a = createElement("a", [["id", `id${list[i][id]}`], ["class", "link-primary"]]);
         a.innerText = list[i].name;
 
         li.appendChild(a);
@@ -91,6 +91,7 @@ function createList(list, id, destination, element, template = document) {
     for (let i in list) {
         fragment.getElementById(`id${list[i][id]}`)
             .addEventListener("click", function () {
+                history.pushState({page: path, id: list[i][id]}, "", "/" + path + "/" + list[i][id]);
                 destination(list[i][id]);
             });
     }
@@ -99,7 +100,7 @@ function createList(list, id, destination, element, template = document) {
 }
 
 // creates the list pagination control
-function createPaginationControl(pagination, id, destination, element, template) {
+function createPaginationControl(pagination, id, destination, element, path, template) {
     let previousButton, item, nextButton, map;
     let fragment = document.createDocumentFragment();
 
@@ -113,7 +114,7 @@ function createPaginationControl(pagination, id, destination, element, template)
     for (let i in map = pagination.getListMap()) {
         item = createPaginationButton(map[i]);   
         item.addEventListener("click", () => {
-            createList(pagination.getPage(i), id, destination, element);
+            createList(pagination.getPage(i), id, destination, element, path);
             setActivePaginationButton(pagination);
         });
         fragment.appendChild(item);
@@ -146,7 +147,7 @@ function setActivePaginationButton(pagination, template = document) {
 // helper to create a pagination button
 function createPaginationButton(buttonText) {
     let item = createElement("li", [["class", "page-item"]]);
-    let item_link = createElement("a", [["class", "page-link"], ["href", "#"]]);
+    let item_link = createElement("a", [["class", "page-link"]]);
     
     item_link.innerText = buttonText;
 

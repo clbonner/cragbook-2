@@ -4,17 +4,17 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="css/bootstrap.css">
+  <link rel="stylesheet" href="/css/bootstrap.css">
   <script src="https://maps.googleapis.com/maps/api/js?key=<?= $GOOGLE_MAPS_API_KEY ?>"></script>
-  <script type="text/javascript" src="js/jquery/jquery-3.5.1.min.js"></script>
-  <script type="text/javascript" src="js/bootstrap/bootstrap.bundle.min.js"></script>
-  <script type="module" src="js/cragbook/cragbook.js"></script>
+  <script type="text/javascript" src="/js/jquery/jquery-3.5.1.min.js"></script>
+  <script type="text/javascript" src="/js/bootstrap/bootstrap.bundle.min.js"></script>
+  <script type="module" src="/js/cragbook/cragbook.js"></script>
   <title><?= $SITE_TITLE ?></title>
 </head>
 <body>
   <nav class="navbar navbar-expand-sm navbar-dark bg-primary">
     <div class="navbar-brand">
-      <img id="home" src="cragbook.png" alt="Cragbook" style="height:50px;">
+      <img id="home" src="/cragbook.png" alt="Cragbook" style="height:50px;">
     </div>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navhide" aria-controls="navhide"
       aria-expanded="false">
@@ -24,13 +24,13 @@
       <div class="container justify-content-sm-start m-0">
         <ul class="navbar-nav">
           <li class="navbar-text">
-            <a class="nav-link" href="#" id="guides">Guides</a>
+            <a class="nav-link" id="guides">Guides</a>
           </li>
           <li class="navbar-text">
-            <a class="nav-link" href="#" id="areas">Areas</a>
+            <a class="nav-link" id="areas">Areas</a>
           </li>
           <li class="navbar-text">
-            <a class="nav-link" href="#" id="crags">Crags</a>
+            <a class="nav-link" id="crags">Crags</a>
           </li>
         </ul>
       </div>

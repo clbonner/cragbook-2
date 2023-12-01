@@ -30,6 +30,7 @@ function viewGuides() {
 // view a single guide
 function viewGuide(id) {
     let guide, crags, template;
+    let path = "crag";
 
     // get guide data
     fetch("/api/request.php?request=guide&id=" + id).then(( response ) => {
@@ -45,7 +46,7 @@ function viewGuide(id) {
             template = createTemplate(html);
             createGuide(guide, template);
 
-            createList(crags, "cragid", viewCrag, "list", template);
+            createList(crags, "cragid", viewCrag, "list", path, template);
             loadTemplateView(template);
 
             cragbook.trail.addCrumb(guide.name, () => (viewGuide(guide.guideid)));
