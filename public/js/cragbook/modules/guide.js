@@ -56,7 +56,7 @@ function viewGuide(id) {
 
 
 // takes an array of guides and a function name as dest
-function createGuideList(guides, event, template) {
+function createGuideList(guides, destination, template) {
     let guide;
     let guideTemplate = template.getElementById("guidetemplate");
 
@@ -65,7 +65,10 @@ function createGuideList(guides, event, template) {
         guide.getElementById("cover").setAttribute("src", item.cover);
         guide.getElementById("name").innerText = item.name;
         guide.getElementById("subtitle").innerText = item.subtitle;
-        guide.getElementById("guide").addEventListener("click", () => (event(item.guideid)));
+        guide.getElementById("guide").addEventListener("click", () => {
+            history.pushState({page: "guide", id: item.guideid}, "", "/guide/" + item.guideid);
+            destination(item.guideid);
+        });
         template.getElementById("list").appendChild(guide);
     });
 }
