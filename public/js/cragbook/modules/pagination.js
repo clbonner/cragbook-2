@@ -80,7 +80,7 @@ function createList(list, id, destination, element, path, template = document) {
 
     for (i in list) {
         li = createElement("li", [["class", "list-group-item p-2"]]);
-        a = createElement("a", [["id", `id${list[i][id]}`], ["class", "link-primary"]]);
+        a = createElement("a", [["id", `id${list[i][id]}`], ["class", "link-primary"], ["role", "button"]]);
         a.innerText = list[i].name;
 
         li.appendChild(a);

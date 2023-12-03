@@ -14,7 +14,7 @@
 <body>
   <nav class="navbar navbar-expand-sm navbar-dark bg-primary">
     <div class="navbar-brand">
-      <img id="home" src="/cragbook.png" alt="Cragbook" style="height:50px;">
+      <img id="home" src="/cragbook.png" alt="Cragbook" style="height:50px;" role="button">
     </div>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navhide" aria-controls="navhide"
       aria-expanded="false">
@@ -24,13 +24,13 @@
       <div class="container justify-content-sm-start m-0">
         <ul class="navbar-nav">
           <li class="navbar-text">
-            <a class="nav-link" id="guides">Guides</a>
+            <a class="nav-link" id="guides" role="button">Guides</a>
           </li>
           <li class="navbar-text">
-            <a class="nav-link" id="areas">Areas</a>
+            <a class="nav-link" id="areas" role="button">Areas</a>
           </li>
           <li class="navbar-text">
-            <a class="nav-link" id="crags">Crags</a>
+            <a class="nav-link" id="crags" role="button">Crags</a>
           </li>
         </ul>
       </div>
