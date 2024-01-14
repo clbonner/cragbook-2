@@ -2,6 +2,7 @@
 
 namespace Cragbook;
 use PDO;
+use PDOException;
 
 class Request {
     protected $connection;
